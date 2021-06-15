@@ -1,13 +1,13 @@
 {
-  "name": "template",
-  "private": true,
+  "name": "react-pemdas",
+  "private": false,
   "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
   "bin": "lib/bin.js",
   "scripts": {
     "setup": "./init-template.js",
-    "pre-commit": "(git-branch-is --not main || (set -u && echo $ALLOWMAIN)) && yarn test",
+    "pre-commit": "(git-branch-is --not main || (set -u && echo $ALLOWMAIN)) && echo yarn test",
     "test": "tsc --noEmit",
     "build": "tsc && chmod +x lib/bin.js && yarn pack -f package.tgz",
     "docs:bin": "mkdir docstemp ; (commanderdoc markdown lib/bin.js -o docstemp/__cli.md --cli-name \"npx `jq -r .name package.json`\") ; ",
@@ -18,10 +18,7 @@
     "watch": "livelink watch",
     "prepare": "install-peers"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rhdeck/base.git"
-  },
+  "repository": "https://github.com/rhdeck/react-pemdas",
   "author": "Ray Deck",
   "license": "MIT",
   "bugs": {
@@ -34,15 +31,17 @@
     "@raydeck/livelink": "^1.5.2",
     "@types/inquirer": "^7.3.1",
     "@types/node": "^14.14.17",
+    "@types/react-reconciler": "^0.26.1",
     "@types/validate-npm-package-name": "^3.0.2",
     "commanderdoc": "^0.1.11",
     "concat-md": "^0.3.5",
     "git-branch-is": "^4.0.0",
     "husky": "^4.3.6",
     "install-peers-cli": "^2.2.0",
-    "typedoc": "^0.20.28",
-    "typedoc-plugin-markdown": "^3.5.0",
-    "typescript": "^4.2.2",
+    "ts-node": "^10.0.0",
+    "typedoc": "^0.20.36",
+    "typedoc-plugin-markdown": "^3.9.0",
+    "typescript": "^4.3.2",
     "validate-npm-package-name": "^3.0.0"
   },
   "files": [
@@ -51,7 +50,8 @@
   ],
   "dependencies": {
     "commander": "^6.2.1",
-    "inquirer": "^7.3.3"
+    "inquirer": "^7.3.3",
+    "react-reconciler": "^0.26.2"
   },
   "liveLink": {
     "ignoreMasks": [
@@ -61,5 +61,8 @@
       "docs/**",
       "docstemp/**"
     ]
+  },
+  "peerDependencies": {
+    "react": "^17.0.2"
   }
 }
