@@ -36,6 +36,41 @@ const config: HostConfig<
   createTextInstance: (text, rootContainer, hostContext, internalHandler) => {
     throw new Error("createTextInstance not defined");
   },
+  finalizeInitialChildren: (
+    instance,
+    type,
+    props,
+    rootContainer,
+    hostContext
+  ) => {
+    return true;
+  },
+  getChildHostContext: (parentHostContext, type, rootContainer) => {
+    return undefined;
+  },
+  getPublicInstance: (instance) => {
+    return undefined;
+  },
+  getRootHostContext: (rootContainer) => {
+    return undefined;
+  },
+  isPrimaryRenderer: true,
+  now: () => performance.now(),
+  prepareForCommit: (containerInfo) => {
+    return null;
+  },
+  preparePortalMount: (containerInfo) => {
+    return null;
+  },
+  prepareUpdate: (containerInfo) => {
+    return null;
+  },
+  queueMicrotask: (fn) => queueMicrotask(fn),
+  resetAfterCommit: (containerInfo) => {},
+  scheduleTimeout: setTimeout,
+  shouldSetTextContent: (type, props) => {
+    return false;
+  },
 };
 const reconciler = Reconciler(config);
 export const render = (element: ReactNode) => {
