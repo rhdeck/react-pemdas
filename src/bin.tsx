@@ -1,10 +1,19 @@
 #!/usr/bin/env node
 import commander from "commander";
 import { render } from ".";
-import React, { FC, Fragment } from "react";
+import React, { FC, Fragment, useEffect, useState } from "react";
 
-const Test: FC<{ index: string }> = ({ index, children }) => {
-  console.log("hello!!!!" + index);
+const Test: FC<{ index: string; setter?: (newValue: string) => void }> = ({
+  index,
+  children,
+  setter,
+}) => {
+  const [thing, setThing] = useState(index);
+  useEffect(() => {
+    console.log("running useEffect", thing);
+    if (setter) setter(thing);
+  }, [thing]);
+  console.log("hello!!!!" + thing);
   return <Fragment>{children}</Fragment>;
 };
 
