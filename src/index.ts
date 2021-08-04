@@ -1,5 +1,12 @@
-import React, { Component, ComponentProps, ReactNode } from "react";
+import React, {
+  Component,
+  ComponentProps,
+  createContext,
+  ReactNode,
+} from "react";
 import Reconciler, { HostConfig } from "react-reconciler";
+import Parentheses from "./Parentheses";
+// import { wrapInParentheses } from "./Parentheses";
 export interface Props {}
 // export abstract class RNComponent {
 //   static tagName: string;
@@ -30,7 +37,7 @@ const config: HostConfig<
   appendInitialChild: (parent, child) => {},
   cancelTimeout: clearTimeout,
   createInstance: (type, props, rootContainer, hostContext, internalHandle) => {
-    throw new Error("createInstance not defined");
+    // throw new Error("createInstance not defined");
   },
   noTimeout: -1,
   createTextInstance: (text, rootContainer, hostContext, internalHandler) => {
@@ -63,7 +70,7 @@ const config: HostConfig<
     return null;
   },
   prepareUpdate: (containerInfo) => {
-    return null;
+    return true;
   },
   queueMicrotask: (fn) => queueMicrotask(fn),
   resetAfterCommit: (containerInfo) => {},
@@ -74,10 +81,13 @@ const config: HostConfig<
   createContainerChildSet: () => {},
   finalizeContainerChildren: () => {},
   replaceContainerChildren: () => {},
+  appendChildToContainerChildSet: () => {},
+  commitMount: () => {},
 };
 const reconciler = Reconciler(config);
 const containerInfo: number[] = [];
 const rootTag: Reconciler.RootTag = 0;
+
 export const render = (element: ReactNode) => {
   const rootContainer = reconciler.createContainer(
     containerInfo,
@@ -85,6 +95,25 @@ export const render = (element: ReactNode) => {
     false,
     null
   ); // Creates root fiber node.
-  reconciler.updateContainer(element, rootContainer, null, () => undefined);
-  return rootTag;
+  let container: Record<string, any> = {};
+  const onChange = (newValue: number) => {
+    container.output = newValue;
+  };
+  reconciler.updateContainer(
+    React.createElement(
+      Parentheses,
+      {
+        startingValue: 0,
+        onChange,
+      },
+      element
+    ),
+    rootContainer,
+    null,
+    () => undefined
+  );
+  setTimeout(() => {
+    console.log("Done");
+  }, 5000);
+  return container;
 };
